@@ -7,11 +7,11 @@
 
 <section class="page-header">
   <h1>Services List</h1>
-  {% comment %} <img src="{% static 'images/blowout.png' %}" alt="" />
+  <img src="{% static 'images/blowout.png' %}" alt="" />
   <img src="{% static 'images/womenscutstyle.png' %}" alt="" />
   <img src="{% static 'images/mastercutstyle.png' %}" alt="" />
   <img src="{% static 'images/facefirst.jpg' %}" alt="" />
-  <img src="{% static 'images/manicure.jpg' %}" alt="" /> {% endcomment %}
+  <img src="{% static 'images/manicure.jpg' %}" alt="" /> 
 </section>
 
 <section class="card-container">
@@ -27,6 +27,7 @@
         <h2 class="card-title">{{ service.type }}</h2>
         <p> {{ service.cost }}</p>
         <p><small>{{ service.description }}</small></p>
+        <h2> <a href="/appointments">Book Now!</a></h2>
       </div>
     </div>
   {% endfor %}

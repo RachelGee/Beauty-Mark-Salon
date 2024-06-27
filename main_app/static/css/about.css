@@ -1,0 +1,15 @@
+
+
+h1 {
+    text-decoration: white;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  p {
+    text-decoration: white;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 16px;
+  }

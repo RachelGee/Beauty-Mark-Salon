@@ -36,3 +36,8 @@ services = [
 def about(request):
     # Send a simple HTML response
     return render(request, 'about.html')
+
+# APPOINTMENTS
+def appointments(request):
+    # Send a simple HTML response
+    return render(request, 'appointments.html')
