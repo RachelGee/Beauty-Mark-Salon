@@ -14,21 +14,22 @@ def service_index(request):
     return render(request, 'services/index.html', {'services': services})
 
 class Service:
-    def __init__(self, type, description, cost):
+    def __init__(self, type, description, cost, image):
         self.type = type
         self.description = description
         self.cost = cost
+        self.image = image
 
 services = [
-    Service('Blowout', '', 40),
-    Service('Womens Cut & Style', '', 60),
-    Service('Womens Master Cut & Style', '', 65),
-    Service('Mens Cut', '', 35),
-    Service('Mens Wash & Scissor Cut', '', 40),
-    Service('Lengthy Master Color', '', 200),
-    Service('Buzz Master Color', '', 100),
-    Service('Fix Your Face', 'Standard makeup', 60),
-    Service('Face First', 'Master makeup', 90),
+    Service('Blowout', '', 40, image='images/blowout.png'),
+    Service('Womens Cut & Style', '', 60, image='images/womenscutstyle.png'),
+    Service('Womens Master Cut & Style', '', 65, image='images/mastercutstyle.png'),
+    Service('Mens Cut', '', 35, image='images/menscut.png'),
+    Service('Mens Wash & Scissor Cut', '', 40, image='images/menswashcut.png'),
+    Service('Lengthy Master Color', '', 200, image='images/lengthmastercolor.png'),
+    Service('Buzz Master Color', '', 100, image='images/buzzmastercolor.png'),
+    Service('Fix Your Face', 'Standard makeup', 60, image='images/fixyourface.png'),
+    Service('Face First', 'Master makeup', 90, image='images/facefirst.png'),
 ]
 
 
@@ -39,5 +40,8 @@ def about(request):
 
 # APPOINTMENTS
 def appointments(request):
-    # Send a simple HTML response
     return render(request, 'appointments.html')
+
+# GALLERY
+def gallery(request):
+    return render(request, 'gallery.html')

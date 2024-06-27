@@ -5,13 +5,13 @@
 {% endblock %} 
 {% block content %}
 
-<section class="page-header">
-  <h1>Services List</h1>
-  <img src="{% static 'images/blowout.png' %}" alt="" />
+<section>
+  <h1>Our Services</h1>
+  {% comment %} <img src="{% static 'images/blowout.png' %}" alt="" />
   <img src="{% static 'images/womenscutstyle.png' %}" alt="" />
   <img src="{% static 'images/mastercutstyle.png' %}" alt="" />
   <img src="{% static 'images/facefirst.jpg' %}" alt="" />
-  <img src="{% static 'images/manicure.jpg' %}" alt="" /> 
+  <img src="{% static 'images/manicure.jpg' %}" alt="" />  {% endcomment %}
 </section>
 
 <section class="card-container">
@@ -19,10 +19,7 @@
     <div class="card">
       <div class="card-content">
         <div class="card-img-container">
-          <img
-            src="{% static 'images/neonkissbeautymarklogo.png' %}"
-            alt=""
-          />
+          <img src="{% static service.image %}" alt="{{ service.name }}">
         </div>
         <h2 class="card-title">{{ service.type }}</h2>
         <p> {{ service.cost }}</p>
