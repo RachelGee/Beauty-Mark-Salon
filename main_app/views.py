@@ -7,8 +7,7 @@ from django.http import HttpResponse
 
 # HOME
 def home(request):
-    # Send a simple HTML response
-    return HttpResponse('<h1>Hello, Beautiful</h1>')
+    return render(request, 'home.html', {'home': home})
 
 # SERVICES
 def service_index(request):
