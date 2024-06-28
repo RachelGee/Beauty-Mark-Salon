@@ -1,7 +1,7 @@
 # main_app/views.py
 
-from django.shortcuts import render
-from .models import Service, Appointment, STYLISTS
+from django.shortcuts import render, redirect
+from .models import Service, Appointment
 from django.contrib.auth.views import LoginView
 
 

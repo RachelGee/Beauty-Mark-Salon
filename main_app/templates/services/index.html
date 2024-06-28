@@ -12,7 +12,7 @@
 <section class="card-container">
   {% for service in services %}
     <div class="card">
-      <a href="/services/{{ cat.id }}">
+      <a href="/services/{{ service.id }}">
         <div class="card-content">
           <div class="card-img-container">
             <img src="{% static service.image %}" alt="{{ service.name }}">
