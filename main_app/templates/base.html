@@ -26,11 +26,15 @@
       </div>
       <nav>
         <ul>
-          <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/gallery">Gallery</a></li>
-          <li><a href="{% url 'appointments' %}">Appointments</a></li>
-          <li><a href="/login">Log In to Book!</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'appointments' %}">Appointments</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="/services">Services</a></li>
+          {% else %}
+            <li><a href="/login">Log In to Book!</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="/services">Services</a></li>
+          {% endif %}  
         </ul>
       </nav>
     </header>

@@ -2,13 +2,18 @@
 
 from django.shortcuts import render
 from .models import Service, Appointment, STYLISTS
+from django.contrib.auth.views import LoginView
+
 
 # Import HttpResponse to send text-based responses
 from django.http import HttpResponse
 
 # HOME
-def home(request):
-    return render(request, 'home.html', {'home': home})
+# def home(request):
+#     return render(request, 'home.html', {'home': home})
+class Home(LoginView):
+    template_name = 'home.html'
+
 
 # SERVICES
 def service_index(request):
