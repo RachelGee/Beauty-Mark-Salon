@@ -1,6 +1,7 @@
 # main_app/views.py
 
 from django.shortcuts import render
+from .models import Service, Appointment, STYLISTS
 
 # Import HttpResponse to send text-based responses
 from django.http import HttpResponse
@@ -13,18 +14,22 @@ def home(request):
 def service_index(request):
     return render(request, 'services/index.html', {'services': services})
 
+def service_detail(request, service_id):
+    service = Service.objects.get(id=service_id)
+    return render(request, 'services/detail.html', {'service-detail': service})
+
 class Service:
     def __init__(self, type, description, cost, image):
         self.type = type
         self.description = description
         self.cost = cost
         self.image = image
+        
 
 services = [
     Service('Blowout', '', 40, image='images/blowout.png'),
     Service('Womens Cut & Style', '', 60, image='images/womenscutstyle.png'),
     Service('Womens Master Cut & Style', '', 65, image='images/mastercutstyle.png'),
-    Service('Mens Cut', '', 35, image='images/menscut.png'),
     Service('Mens Wash & Scissor Cut', '', 40, image='images/menswashcut.png'),
     Service('Lengthy Master Color', '', 200, image='images/lengthmastercolor.png'),
     Service('Buzz Master Color', '', 100, image='images/buzzmastercolor.png'),

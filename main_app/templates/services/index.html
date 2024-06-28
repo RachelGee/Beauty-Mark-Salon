@@ -1,34 +1,32 @@
 {% extends 'base.html' %} 
 {% load static %} 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/services/service-index.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/services/index.css' %}"/>
 {% endblock %} 
 {% block content %}
 
 <section>
   <h1>Our Services</h1>
-  {% comment %} <img src="{% static 'images/blowout.png' %}" alt="" />
-  <img src="{% static 'images/womenscutstyle.png' %}" alt="" />
-  <img src="{% static 'images/mastercutstyle.png' %}" alt="" />
-  <img src="{% static 'images/facefirst.jpg' %}" alt="" />
-  <img src="{% static 'images/manicure.jpg' %}" alt="" />  {% endcomment %}
 </section>
 
 <section class="card-container">
   {% for service in services %}
     <div class="card">
-      <div class="card-content">
-        <div class="card-img-container">
-          <img src="{% static service.image %}" alt="{{ service.name }}">
+      <a href="/services/{{ cat.id }}">
+        <div class="card-content">
+          <div class="card-img-container">
+            <img src="{% static service.image %}" alt="{{ service.name }}">
+          </div>
+          <h2 class="card-title">{{ service.type }}</h2>
+          <p> {{ service.cost }}</p>
+          <p><small>{{ service.description }}</small></p>
+          <h2> <a href="/<int:service_id>/">Book Now!</a></h2>
         </div>
-        <h2 class="card-title">{{ service.type }}</h2>
-        <p> {{ service.cost }}</p>
-        <p><small>{{ service.description }}</small></p>
-        <h2> <a href="/appointments">Book Now!</a></h2>
-      </div>
+      </a>
     </div>
   {% endfor %}
 </section>
-
+<footer>
+</footer>
 
 {% endblock %}
