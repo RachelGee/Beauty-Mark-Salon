@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from datetime import datetime
 
 
 STYLISTS = (
@@ -43,7 +44,7 @@ class Service(models.Model):
 
 # APPOINTMENTS
 class Appointment(models.Model):
-    date = models.DateField('Booking date')
+    date = models.DateField(default=datetime.now)
     service = models.CharField(
         max_length=3,
         choices=SERVICE,

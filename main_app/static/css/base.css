@@ -33,7 +33,7 @@
     min-height: 100vh;
     --nav-bg: rgb(255, 255, 255);
     --nav-bg-ff: rgb(255, 255, 255);
-    --borders: rgba(6, 6, 5, 0.7); solid 2px;
+    --borders: rgba(6, 6, 5, 0.7);
     --text-color: rgb(255, 255, 255);
     --link-hover-color: rgba(6, 6, 5, 0.7);
     --button-bg: rgb(245, 245, 245);
