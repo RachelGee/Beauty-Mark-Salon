@@ -69,19 +69,20 @@ def about(request):
     return render(request, 'about.html')
 
 # APPOINTMENTS
-def appointment_index(request):
-    my_appointments = request.user.appointment_set.all()
-    return render(request, 'myappointments.html', { 'myappointments': my_appointments })
+# @login_required
+# def appointment_index(request):
+#     my_appointments = request.user.appointment_set.all()
+#     return render(request, 'myappointments.html', { 'myappointments': my_appointments })
 
-class AppointmentCreate(CreateView):
+class AppointmentCreate(LoginRequiredMixin, CreateView):
     model = Appointment
     fields = ['service', 'stylist', 'date', 'time']
+
     def form_valid(self, form):
-        # Assign the logged in user (self.request.user)
-        form.instance.user = self.request.user  # form.instance is the cat
-        # Let the CreateView do its job as usual
+        form.instance.user = self.request.user  
         return super().form_valid(form)
     
+@login_required    
 def add_appointment(request, user_id):
     form = AppointmentForm(request.POST)
     if form.is_valid():
@@ -89,6 +90,16 @@ def add_appointment(request, user_id):
         new_appointment.user_id = user_id
         new_appointment.save()
     return redirect('appointments.html')
+
+
+
+class AppointmentUpdate(LoginRequiredMixin, UpdateView):
+    model = Appointment
+    fields = ['service', 'stylist', 'date', 'time']
+
+class AppointmentDelete(LoginRequiredMixin, DeleteView):
+    model = Appointment
+    success_url = '/appointments'
 
 def signup(request):
     error_message = ''
@@ -100,6 +111,5 @@ def signup(request):
             return redirect('service-index')
         else:
             error_message = 'Invalid sign up - try again'
-    # Handle the GET request (render the form)
     form = UserCreationForm()
     return render(request, 'signup.html', {'form': form, 'error_message': error_message})
