@@ -36,7 +36,7 @@ main {
   }
   
   .login h1 {
-    text-color: white;
+    color: white;
     font-size: clamp(3.2rem, 3vw, 4.8rem);
     margin: 10px 0;
   }

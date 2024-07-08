@@ -1,8 +1,15 @@
 # main_app/views.py
-
-from django.shortcuts import render, redirect
-from .models import Service, Appointment
 from django.contrib.auth.views import LoginView
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
+from .models import Appointment
+from .forms import AppointmentForm
 
 
 # Import HttpResponse to send text-based responses
@@ -13,33 +20,47 @@ from django.http import HttpResponse
 class Home(LoginView):
     template_name = 'home.html'
 
+def find_service_by_id(id):
+    for service in services:
+        if service.id == id:
+            return service
+    return None
 
 # SERVICES
 def service_index(request):
     return render(request, 'services/index.html', {'services': services})
 
 def service_detail(request, service_id):
-    service = Service.objects.get(id=service_id)
-    return render(request, 'services/detail.html', {'service-detail': service})
+    service = find_service_by_id(service_id)
+    return render(request, 'services/detail.html', {'service': service})
 
 class Service:
-    def __init__(self, type, description, cost, image):
+    def __init__(self, type, description, cost, image, id):
         self.type = type
         self.description = description
         self.cost = cost
         self.image = image
+        self.id = id
         
 
 services = [
-    Service('Blowout', '', 40, image='images/blowout.png'),
-    Service('Womens Cut & Style', '', 60, image='images/womenscutstyle.png'),
-    Service('Womens Master Cut & Style', '', 65, image='images/mastercutstyle.png'),
-    Service('Mens Wash & Scissor Cut', '', 40, image='images/menswashcut.png'),
-    Service('Lengthy Master Color', '', 200, image='images/lengthmastercolor.png'),
-    Service('Buzz Master Color', '', 100, image='images/buzzmastercolor.png'),
-    Service('Fix Your Face', 'Standard makeup', 60, image='images/fixyourface.png'),
-    Service('Face First', 'Master makeup', 90, image='images/facefirst.png'),
+    Service(type='Blowout', description='', cost=40, image='images/blowout.png', id=1),
+    Service(type='Womens Cut & Style', description='', cost=60, image='images/womenscutstyle.png', id=2),
+    Service(type='Womens Master Cut & Style', description='', cost=65, image='images/mastercutstyle.png', id=3),
+    Service(type='Mens Wash & Scissor Cut', description='', cost=40, image='images/menswashcut.png', id=4),
+    Service(type='Lengthy Master Color', description='', cost=200, image='images/lengthmastercolor.png', id=5),
+    Service(type='Buzz Master Color', description='', cost=100, image='images/buzzmastercolor.png', id=6),
+    Service(type='Fix Your Face', description='Standard makeup', cost=60, image='images/fixyourface.png', id=7),
+    Service(type='Face First', description='Master makeup', cost=90, image='images/facefirst.png', id=8),
 ]
+
+#STYLISTS
+# class Stylist:
+#     def __init__(self, name, master, services, image):
+#         self.name = name
+#         self.master = master
+#         self.services = services
+#         self.image = image
 
 
 # ABOUT
@@ -48,9 +69,37 @@ def about(request):
     return render(request, 'about.html')
 
 # APPOINTMENTS
-def appointments(request):
-    return render(request, 'appointments.html')
+def appointment_index(request):
+    my_appointments = request.user.appointment_set.all()
+    return render(request, 'myappointments.html', { 'myappointments': my_appointments })
 
-# GALLERY
-def gallery(request):
-    return render(request, 'gallery.html')
+class AppointmentCreate(CreateView):
+    model = Appointment
+    fields = ['service', 'stylist', 'date', 'time']
+    def form_valid(self, form):
+        # Assign the logged in user (self.request.user)
+        form.instance.user = self.request.user  # form.instance is the cat
+        # Let the CreateView do its job as usual
+        return super().form_valid(form)
+    
+def add_appointment(request, user_id):
+    form = AppointmentForm(request.POST)
+    if form.is_valid():
+        new_appointment = form.save(commit=False)
+        new_appointment.user_id = user_id
+        new_appointment.save()
+    return redirect('appointments.html')
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('service-index')
+        else:
+            error_message = 'Invalid sign up - try again'
+    # Handle the GET request (render the form)
+    form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form, 'error_message': error_message})

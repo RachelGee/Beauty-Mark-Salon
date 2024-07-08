@@ -1,18 +1,16 @@
-{% extends 'base.html' %} 
-{% load static %} 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/services/index.css' %}"/>
 {% endblock %} 
 {% block content %}
 
 <section>
-  <h1>Our Services</h1>
+  <h1>My Appointments</h1>
 </section>
 
 <section class="card-container">
-  {% for service in services %}
+  {% for appointment in appointments %}
     <div class="card">
-      <a href="/services/{{service.id}}">
+      {% comment %} <a href="/services/{{service.id}}"> {% endcomment %}
         <div class="card-content">
           <div class="card-img-container">
             <img src="{% static service.image %}" alt="{{ service.name }}">

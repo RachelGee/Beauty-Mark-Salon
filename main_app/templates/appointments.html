@@ -1,21 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<!-- New MCDatepicker CSS -->
-<link 
-  href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" 
-  rel="stylesheet" 
-/>
-<link rel="stylesheet" href="{% static 'css/mcdp.css' %}">
 
-<!-- MCDatepicker JS -->
-<script 
-  src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"
->
-</script>
-
-
+{% block content %}
 <link rel="stylesheet" href="{% static 'css/appointment-detail.css' %}" />
-
-
+<div class="appointment-container">
+  <section class="appointments">
+      <div class="subsection-title">
+          <h2>Appointments</h2>
+          <img src="{% static 'images/cat-cone.svg' %}" alt="An ice cream cone cat" />
+      </div>
+      <h3>Book an Appointment</h3>
+      <form action="{% url 'add-appointment' user.id %}" method="post" class="subsection-content" autocomplete="off">
+          {% csrf_token %}
+          {{ appointment_form.as_p }}
+          <button type="submit" class="btn submit">Book Appointment</button>
+      </form>
+      {% if user.appointment_set.all.count %}
+      <table>
+          <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Service</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for appointment in user.appointment_set.all %}
+              <tr>
+                  <td>{{appointment.date}}</td>
+                  <td>{{appointment.get_service_display}}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+      {% else %}
+      <div class="subsection-content">
+          <p>⚠️ {{user.name}} You haven't booked yet!</p>
+      </div>
+      {% endif %}
+  </section>
 {% endblock %}
